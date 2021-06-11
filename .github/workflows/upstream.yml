@@ -1,3 +1,4 @@
+name: Upstream sync
 on:
   schedule:
     - cron:  '*/30 * * * *'
@@ -26,8 +27,6 @@ jobs:
         upstream_repository: moshimo-jp/moshimo.space
         upstream_branch: main
         target_branch: upstream
-        git_pull_args: --ff-only                    # optional arg use, defaults to simple 'pull'
-        github_token: ${{ secrets.GITHUB_TOKEN }}   # optional, for accessing repos that require authentication
 
     # Step 3: Display a message if 'sync' step had new commits (simple test)
     - name: Check for new commits
