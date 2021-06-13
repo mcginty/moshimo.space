@@ -7,7 +7,7 @@ const base = Airtable.base(AIRTABLE_BASE);
 export async function getEvents() {
   let records = await base(AIRTABLE_TABLE).select({
     maxRecords: 100,
-    view: "Future",
+    view: "Upcoming",
   }).firstPage()
 
   let events = records.map((record) => {
@@ -22,9 +22,4 @@ export async function getEvents() {
     return event
   })
   return events
-}
-
-export async function getApprovedEvents() {
-  let allEvents = await getEvents()
-  return allEvents.filter(event => event.state === State.Approved)
 }

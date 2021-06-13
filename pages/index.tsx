@@ -1,7 +1,8 @@
 import Container from '../components/container'
+import Calendar from '../components/calendar'
 import Intro from '../components/intro'
 import Layout from '../components/layout'
-import { getApprovedEvents } from '../lib/api'
+import { getEvents } from '../lib/api'
 import Head from 'next/head'
 import { Event } from '../types/event'
 
@@ -18,11 +19,7 @@ const Index = ({ events }: Props) => {
         </Head>
         <Container>
           <Intro />
-          <ul>
-          {events.map((event) => (
-            <li>{event.name}</li>
-          ))}
-          </ul>
+          <Calendar events={events} />
         </Container>
       </Layout>
     </>
@@ -32,7 +29,7 @@ const Index = ({ events }: Props) => {
 export default Index
 
 export const getStaticProps = async () => {
-  const events = (await getApprovedEvents())
+  const events = (await getEvents())
 
   return {
     props: { events },
