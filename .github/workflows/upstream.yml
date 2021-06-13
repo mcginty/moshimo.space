@@ -25,8 +25,8 @@ jobs:
       uses: aormsby/Fork-Sync-With-Upstream-action@v2.3
       with:
         upstream_repository: moshimo-jp/moshimo.space
-        upstream_branch: main
-        target_branch: upstream
+        upstream_branch: upstream
+        target_branch: main
 
     # Step 3: Display a message if 'sync' step had new commits (simple test)
     - name: Check for new commits
