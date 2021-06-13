@@ -12,6 +12,7 @@ export async function getEvents() {
 
   let events = records.map((record) => {
     const fields: any = record.fields
+    //console.debug(fields)
     const event: Event = {
       name: fields.Name,
       state: fields.State,
