@@ -1,11 +1,7 @@
-import fs from 'fs'
-import { join } from 'path'
-import matter from 'gray-matter'
 import { AIRTABLE_BASE, AIRTABLE_TABLE } from './constants';
-import Event from '../types/event';
+import { Event, State } from '../types/event';
 import Airtable from 'airtable';
 
-const postsDirectory = join(process.cwd(), '_posts')
 const base = Airtable.base(AIRTABLE_BASE);
 
 export async function getEvents() {
@@ -27,31 +23,7 @@ export async function getEvents() {
   return events
 }
 
-export function getPostBySlug(slug: string, fields: string[] = []) {
-  const realSlug = slug.replace(/\.md$/, '')
-  const fullPath = join(postsDirectory, `${realSlug}.md`)
-  const fileContents = fs.readFileSync(fullPath, 'utf8')
-  const { data, content } = matter(fileContents)
-
-  type Items = {
-    [key: string]: string
-  }
-
-  const items: Items = {}
-
-  // Ensure only the minimal needed data is exposed
-  fields.forEach((field) => {
-    if (field === 'slug') {
-      items[field] = realSlug
-    }
-    if (field === 'content') {
-      items[field] = content
-    }
-
-    if (data[field]) {
-      items[field] = data[field]
-    }
-  })
-
-  return items
+export async function getApprovedEvents() {
+  let allEvents = await getEvents()
+  return allEvents.filter(event => event.state === State.Approved)
 }

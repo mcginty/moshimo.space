@@ -1,14 +1,12 @@
 
-enum State {
+export enum State {
   Approved = "Approved",
   Proposed = "Proposed",
 }
 
-type Event = {
+export type Event = {
   name: string
-  state: string
+  state: State
   start: string
   end: string
 }
-
-export default Event
