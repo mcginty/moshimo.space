@@ -1,27 +1,28 @@
 import Container from '../components/container'
-import MoreStories from '../components/more-stories'
-import HeroPost from '../components/hero-post'
 import Intro from '../components/intro'
 import Layout from '../components/layout'
-import { getAllPosts } from '../lib/api'
+import { getEvents } from '../lib/api'
 import Head from 'next/head'
-import { CMS_NAME } from '../lib/constants'
-import Post from '../types/post'
+import Event from '../types/event'
 
 type Props = {
-  allPosts: Post[]
+  events: Event[]
 }
 
-const Index = ({ allPosts }: Props) => {
+const Index = ({ events }: Props) => {
   return (
     <>
       <Layout>
         <Head>
-          <title>Next.js Blog Example with {CMS_NAME}</title>
+          <title>もしも</title>
         </Head>
         <Container>
           <Intro />
-          {allPosts.length > 0 && <MoreStories posts={allPosts} />}
+          <ul>
+          {events.map((event) => (
+            <li>{event.name}</li>
+          ))}
+          </ul>
         </Container>
       </Layout>
     </>
@@ -31,16 +32,11 @@ const Index = ({ allPosts }: Props) => {
 export default Index
 
 export const getStaticProps = async () => {
-  const allPosts = getAllPosts([
-    'title',
-    'date',
-    'slug',
-    'author',
-    'coverImage',
-    'excerpt',
-  ])
+  const events = (await getEvents())
+
+  console.log(events)
 
   return {
-    props: { allPosts },
+    props: { events },
   }
 }

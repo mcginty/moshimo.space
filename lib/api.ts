@@ -1,11 +1,30 @@
 import fs from 'fs'
 import { join } from 'path'
 import matter from 'gray-matter'
+import { AIRTABLE_BASE, AIRTABLE_TABLE } from './constants';
+import Event from '../types/event';
+import Airtable from 'airtable';
 
 const postsDirectory = join(process.cwd(), '_posts')
+const base = Airtable.base(AIRTABLE_BASE);
 
-export function getPostSlugs() {
-  return fs.readdirSync(postsDirectory)
+export async function getEvents() {
+  let records = await base(AIRTABLE_TABLE).select({
+    maxRecords: 100,
+    view: "Future",
+  }).firstPage()
+
+  let events = records.map((record) => {
+    const fields: any = record.fields
+    const event: Event = {
+      name: fields.Name,
+      state: fields.State,
+      start: fields.Start,
+      end: fields.End,
+    }
+    return event
+  })
+  return events
 }
 
 export function getPostBySlug(slug: string, fields: string[] = []) {
@@ -35,13 +54,4 @@ export function getPostBySlug(slug: string, fields: string[] = []) {
   })
 
   return items
-}
-
-export function getAllPosts(fields: string[] = []) {
-  const slugs = getPostSlugs()
-  const posts = slugs
-    .map((slug) => getPostBySlug(slug, fields))
-    // sort posts by date in descending order
-    .sort((post1, post2) => (post1.date > post2.date ? -1 : 1))
-  return posts
 }
