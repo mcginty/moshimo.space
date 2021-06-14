@@ -1,3 +1,4 @@
+import { parseISO, format } from 'date-fns'
 import { Event } from '../types/event'
 import DateFormatter from './date-formatter'
 
@@ -14,22 +15,35 @@ const EventBox = ({ event }: EventProps) => {
     <div className="inline-block p-4 border rounded border-current">
       <div>{event.name}</div>
       <div>
-        Starts: <DateFormatter dateString={event.start} />
-      </div>
-      <div>
-        Ends: <DateFormatter dateString={event.end} />
+        {format(parseISO(event.start), 'HH:mm')} - {format(parseISO(event.end), 'HH:mm')}
       </div>
     </div>
   )
 }
 
 const Calendar = ({ events }: CalendarProps) => {
+  events.sort((a, b) => parseISO(a.start).getTime() - parseISO(b.start).getTime())
+  const map = new Map()
+  events.forEach((event) => {
+    const key = format(parseISO(event.start), 'LLLL d');
+    const collection = map.get(key);
+    if (!collection) {
+        map.set(key, [event]);
+    } else {
+        collection.push(event);
+    }
+  })
   return (
-    <>
-    {events.map((event) => (
-      <EventBox event={event} />
+    <div id="calendar">
+    {Array.from(map).map(([date, events]) => (
+      <>
+        <h2>{date}</h2>
+        {events.map((event: Event) => (
+          <EventBox event={event} />
+        ))}
+      </>
     ))}
-    </>
+    </div>
   )
 }
 
