@@ -36,12 +36,12 @@ const Calendar = ({ events }: CalendarProps) => {
   return (
     <div id="calendar">
     {Array.from(map).map(([date, events]) => (
-      <>
+      <div key={date}>
         <h2>{date}</h2>
         {events.map((event: Event) => (
           <EventBox key={event.id} event={event} />
         ))}
-      </>
+      </div>
     ))}
     </div>
   )
