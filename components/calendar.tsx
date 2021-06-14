@@ -39,7 +39,7 @@ const Calendar = ({ events }: CalendarProps) => {
       <>
         <h2>{date}</h2>
         {events.map((event: Event) => (
-          <EventBox event={event} />
+          <EventBox key={event.id} event={event} />
         ))}
       </>
     ))}

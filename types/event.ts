@@ -5,6 +5,7 @@ export enum State {
 }
 
 export type Event = {
+  id: string
   name: string
   state: State
   start: string

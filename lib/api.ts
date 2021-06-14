@@ -14,6 +14,7 @@ export async function getEvents() {
     const fields: any = record.fields
     //console.debug(fields)
     const event: Event = {
+      id: record.getId(),
       name: fields.Name,
       state: fields.State,
       start: fields.Start,
