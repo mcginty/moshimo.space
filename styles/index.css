@@ -7,6 +7,10 @@
 /* Stop purging. */
 
 /* Write you own custom component styles here */
+.intro-blurb p {
+  margin: 1rem 0;
+  line-height: 1.7em;
+}
 
 /* Start purging... */
 @tailwind utilities;

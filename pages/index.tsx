@@ -19,7 +19,7 @@ const Index = ({ events }: Props) => {
         </Head>
         <Container>
           <Intro />
-          <Calendar events={events} />
+          {/* <Calendar events={events} /> */}
         </Container>
       </Layout>
     </>
@@ -29,7 +29,8 @@ const Index = ({ events }: Props) => {
 export default Index
 
 export const getStaticProps = async () => {
-  const events = (await getEvents())
+  // const events = (await getEvents())
+  const events: Event[] = []
 
   return {
     props: { events },
